@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+🧠 SkillPilot – AI-Powered Interview Practice Platform
 
-## Getting Started
+MockMate is an AI-driven interview preparation tool that allows users to mock real interview experiences. Users can select their domain (e.g., Frontend, Backend, DevOps, Data Science, etc.), and the system dynamically generates a personalized set of interview questions using the OpenAI API.
 
-First, run the development server:
+To make the experience immersive, VAPI converts the interviewer’s questions from text to speech, enabling users to listen and respond as if in a real interview scenario.
 
-```bash
+🚀 Features
+
+🎯 Domain-based interview selection
+Choose your desired field or technology, and get questions tailored to that area.
+
+🤖 AI-generated questions
+OpenAI dynamically generates relevant and non-repetitive interview questions for your chosen domain.
+
+🔊 Realistic voice experience
+VAPI converts the generated questions into lifelike speech for a real-time interview feel.
+
+💬 Interactive user flow
+Users can listen, think, and respond just like in an actual interview setup.
+
+🧩 Scalable backend architecture
+The project is designed with modular APIs, making it easy to extend with new domains or question sources.
+
+🏗️ Tech Stack
+
+Frontend:
+
+Next.js (React Framework)
+
+Tailwind CSS / shadcn/ui
+
+Backend:
+
+Node.js / Express.js
+
+OpenAI API (for AI question generation)
+
+VAPI (for text-to-speech conversion)
+
+Database (optional):
+
+MongoDB or Supabase (for storing user sessions or question history)
+
+Hosting:
+
+Vercel / Render / AWS
+
+⚙️ How It Works
+
+User selects a domain (e.g., Backend Developer, Frontend Developer, DevOps Engineer).
+
+The app calls the OpenAI API to generate domain-specific interview questions.
+
+Each question is sent to VAPI, which converts it into a realistic voice output.
+
+The user listens and responds — simulating a natural interview environment.
+
+🧩 API Flow
+[Frontend]
+     ↓
+User selects domain
+     ↓
+/generate-questions (OpenAI)
+     ↓
+Questions returned
+     ↓
+/text-to-speech (VAPI)
+     ↓
+Audio questions played
+
+🖥️ Installation & Setup
+1. Clone the repository
+git clone <repo>
+cd mockmate
+
+2. Install dependencies
+npm install
+
+3. Create a .env file
+
+Add your API keys:
+
+OPENAI_API_KEY=your_openai_api_key
+VAPI_API_KEY=your_vapi_api_key
+
+4. Run the app
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+App will start at: http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🧠 Example Domains
 
-## Learn More
+Frontend Development
 
-To learn more about Next.js, take a look at the following resources:
+Backend Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+DevOps
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Data Science
 
-## Deploy on Vercel
+Machine Learning
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Cloud Computing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Each domain triggers a unique set of AI-generated interview questions.
+
+📸 Future Enhancements
+
+🧍‍♂️ Add AI interviewer voice responses (two-way interaction)
+
+🗂️ Save past mock sessions for review
+
+📊 Add analytics to track user performance
+
+🧩 Support multiple languages
+
+🤝 Contributing
+
+Contributions are welcome!
+If you’d like to add more domains or improve question generation, feel free to open a pull request.
+
+🧾 License
+
+This project is licensed under the MIT License.
+
+✨ Author
+
+Karan Mehta
