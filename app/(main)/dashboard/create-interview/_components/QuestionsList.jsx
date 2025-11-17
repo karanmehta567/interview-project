@@ -67,7 +67,7 @@ function QuestionsList({formData,onCreateLink}) {
                     ))}
                 </div>
                 </div>}
-                <div className="flex justify-end p-5">
+                <div className="flex justify-center sm:justify-end p-5">
                      {loading ? (
                         <Button disabled>
                             <Loader2Icon className="animate-spin mr-2 h-4 w-4" />

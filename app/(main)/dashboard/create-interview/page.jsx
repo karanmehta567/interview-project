@@ -31,8 +31,8 @@ function CreateInterview() {
       setSteps(step+1)
     }
   return (
-    <div className='px-10 md:px-24 lg:px-44 xl:px-12'>
-        <div className='flex gap-5 items-center'>
+    <div className='w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12'>
+        <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5'>
             <ArrowLeft onClick={()=>router.back()} className='cursor-pointer'/>
             <h2 className='font-sans text-2xl font-bold'>Create New Interview</h2>
         </div>

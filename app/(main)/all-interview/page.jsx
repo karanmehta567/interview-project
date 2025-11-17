@@ -18,15 +18,14 @@ function page() {
             .select('*')
             .eq('userEmail',user?.email)
             .order('id',{ascending:false})
-        console.log(interviews)
         setInterviewList(interviews)
     }
     return (
-    <div className='my-5'>
-        <h2 className='font-sans font-semibold text-2xl ml-2'>All Previously Created Interviews List</h2>
+    <div className='my-5 space-y-4'>
+        <h2 className='font-sans font-semibold text-xl sm:text-2xl'>All Previously Created Interviews</h2>
         {
             interviewList?.length==0&&
-            <div className='p-5 flex flex-col gap-3 items-center'>
+            <div className='p-5 flex flex-col gap-3 items-center text-center'>
                 <Video className='h-10 w-10 text-primary'/>
                 <h2>You dont't have any past interviews records!</h2>
                 <Button><Plus/> Create now!</Button>
@@ -34,7 +33,7 @@ function page() {
         }
         {
             interviewList&&
-            <div className='grid grid-cols-2 xl:grid-cols-3 gap-5 mt-5'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'>
                 {interviewList.map(( interview,index)=>(
                     <InterviewCard key={index} interview={interview}/>
                 ))}

@@ -21,11 +21,11 @@ function ScheduleInterview() {
     setInterviewList(interviews)
   }
   return (
-    <div className='mt-5'>
-      <h2 className='font-sans font-semibold'>Interview List with Feedback</h2>
+    <div className='mt-5 space-y-4'>
+      <h2 className='font-sans font-semibold text-xl sm:text-2xl'>Interview List with Feedback</h2>
         {
             interviewList?.length==0&&
-            <div className='p-5 flex flex-col gap-3 items-center'>
+            <div className='p-5 flex flex-col gap-3 items-center text-center'>
                 <Video className='h-10 w-10 text-primary'/>
                 <h2>You dont't have any past interviews records!</h2>
                 <Button><Plus/> Create now!</Button>
@@ -33,7 +33,7 @@ function ScheduleInterview() {
         }
         {
             interviewList&&
-            <div className='grid grid-cols-2 xl:grid-cols-3 gap-5 mt-5'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'>
                 {interviewList.map((interview,index)=>(
                     <InterviewCard key={index} interview={interview} viewDetail={true}/>
                 ))}

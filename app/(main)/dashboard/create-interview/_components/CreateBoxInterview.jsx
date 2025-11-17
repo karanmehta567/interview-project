@@ -32,7 +32,7 @@ function CreateBoxInterview({onHandleInputChange,GoToNext}) {
     if(interviewType){
         onHandleInputChange('type',interviewType)
     }
-  },[interviewType])
+  },[interviewType,onHandleInputChange])
   const AddInterviewType=(type)=>{
     const data=interviewType.includes(type)
     if(!data){
@@ -43,16 +43,16 @@ function CreateBoxInterview({onHandleInputChange,GoToNext}) {
     }
   }
   return (
-    <div className='p-5 bg-white rounded-xl'>
+    <div className='p-5 bg-white rounded-xl space-y-5'>
         <div>
             <h2 className='text-sm font-medium font-sans'>Job Position</h2>
             <Input placeholder='e.g Cloud Engineer' className='mt-2' onChange={(event)=>onHandleInputChange('jobPosition',event.target.value)}/>
         </div>
-        <div className='mt-5'>
+        <div>
             <h2 className='text-sm font-medium font-sans'>Job Description</h2>
-            <Textarea placeholder='Enter detail JD' className='mt-2 h-[200px]' onChange={(event)=>onHandleInputChange('jobdescription',event.target.value)}/>
+            <Textarea placeholder='Enter detailed JD' className='mt-2 min-h-[160px]' onChange={(event)=>onHandleInputChange('jobdescription',event.target.value)}/>
         </div>
-        <div className='mt-5'>
+        <div>
             <h2 className='text-sm font-medium font-sans'>Interview Duration</h2>
             <Select onValueChange={(value)=>onHandleInputChange('duration',value)}>
             <SelectTrigger className="w-full mt-2">
@@ -65,7 +65,7 @@ function CreateBoxInterview({onHandleInputChange,GoToNext}) {
             </SelectContent>
             </Select>
         </div>
-        <div className='mt-5'>
+        <div>
         <h2 className='text-sm mb-2 font-sans font-medium'>Interview Date</h2>
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -92,9 +92,9 @@ function CreateBoxInterview({onHandleInputChange,GoToNext}) {
             </PopoverContent>
             </Popover>
         </div>
-        <div className="mt-5">
+        <div>
     <h2 className="text-sm font-sans font-medium">Interview Type</h2>
-    <div className="flex flex-wrap gap-3 mt-2 font-sans font-medium justify-between">
+    <div className="flex flex-wrap gap-3 mt-2 font-sans font-medium">
         {interviewsType.map((type, index) => {
         const isSelected = interviewType.includes(type.title);
         return (
@@ -112,8 +112,8 @@ function CreateBoxInterview({onHandleInputChange,GoToNext}) {
         })}
     </div>
     </div>
-        <div className='mt-5 flex justify-end'>
-        <Button onClick={()=>GoToNext()} ><ArrowRight/>Click to Generate Questions</Button>
+        <div className='flex justify-center sm:justify-end'>
+        <Button onClick={()=>GoToNext()} className='w-full sm:w-auto'><ArrowRight/>Click to Generate Questions</Button>
         </div>
     </div>
 )

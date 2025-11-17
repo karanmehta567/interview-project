@@ -1,7 +1,7 @@
 'use client'
 import React, { useContext, useEffect, useRef, useCallback } from 'react'
 import { InterviewContext } from '@/context/InterviewContext'
-import { Loader2Icon, Mic, Phone, Timer } from 'lucide-react'
+import { Loader2Icon, Phone } from 'lucide-react'
 import Image from 'next/image'
 import Vapi from '@vapi-ai/web'
 import AlerrtConfirmation from './_components/AlerrtConfirmation'
@@ -18,8 +18,6 @@ function StartInterview() {
   const vapiRef = useRef(null)
   const router=useRouter()
   const [loading,setLoading]=React.useState(false)
-  // Active user state
-  const [activeUser, setActiveUser] = React.useState(false)
   const [conversation,setConversation]=React.useState()
 
   const GenerateFeedback=async()=>{
@@ -62,8 +60,6 @@ function StartInterview() {
 
   // Event handlers (stable with useCallback)
   const handleCallStart = useCallback(() => toast("Call connected"), [])
-  const handleSpeechStart = useCallback(() => setActiveUser(false), [])
-  const handleSpeechEnd = useCallback(() => setActiveUser(true), [])
   const handleCallEnd = useCallback(() => {
     toast("Interview has ended")
 
@@ -87,19 +83,15 @@ function StartInterview() {
     if (!vapi) return
 
     vapi.on('call-start', handleCallStart)
-    vapi.on('speech-start', handleSpeechStart)
-    vapi.on('speech-end', handleSpeechEnd)
     vapi.on('call-end', handleCallEnd)
     vapi.on('message', handleMessage)
 
     return () => {
       vapi.off('call-start', handleCallStart)
-      vapi.off('speech-start', handleSpeechStart)
-      vapi.off('speech-end', handleSpeechEnd)
       vapi.off('call-end', handleCallEnd)
       vapi.off('message', handleMessage)
     }
-  }, [handleCallStart, handleSpeechStart, handleSpeechEnd, handleCallEnd, handleMessage])
+  }, [handleCallStart, handleCallEnd, handleMessage])
   const onStartCall = () => {
     const vapi = vapiRef.current
     if (!interviewInfo || !vapi) return
@@ -126,27 +118,26 @@ function StartInterview() {
   }
 
   return (
-    <div className='p-20 lg:px-48 xl:px-56 bg-gray-100'>
-      <h2 className='font-bold text-xl flex justify-between'>
+    <div className='px-4 py-10 sm:px-8 lg:px-20 bg-gray-100 min-h-screen'>
+      <h2 className='font-bold text-xl sm:text-2xl text-center sm:text-left'>
         AI Interview Session
       </h2>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-7 mt-4'>
-        <div className='bg-white p-20 rounded-lg border flex items-center justify-center flex-col'>
-          <Image src='/robo.jpg' width={100} height={100} className='h-[200px] w-[200px] object-cover' alt='AI Recruiter' />
-          <h2 className='font-sans font-bold'>AI Recruiter</h2>
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-7 mt-6'>
+        <div className='bg-white p-10 sm:p-16 rounded-lg border flex items-center justify-center flex-col text-center'>
+          <Image src='/robo.jpg' width={100} height={100} className='h-[180px] w-[180px] sm:h-[220px] sm:w-[220px] object-cover' alt='AI Recruiter' />
+          <h2 className='font-sans font-bold mt-4'>AI Recruiter</h2>
         </div>
         <div>
-          <div className='bg-white h-[400px] rounded-lg border flex items-center justify-center flex-col'>
+          <div className='bg-white min-h-[280px] sm:min-h-[360px] rounded-lg border flex items-center justify-center flex-col gap-4'>
             {interviewInfo?.username &&
-              <h2 className='text-2xl bg-blue-600 rounded-full px-10 py-5 p-3 text-white flex items-center justify-center'>
+              <h2 className='text-2xl bg-blue-600 rounded-full px-10 py-5 text-white flex items-center justify-center'>
                 {interviewInfo?.username[0]}
               </h2>}
-            <h2 className='font-sans font-bold mt-13'>{interviewInfo?.username}</h2>
+            <h2 className='font-sans font-bold text-center text-lg'>{interviewInfo?.username}</h2>
           </div>
         </div>
       </div>
-      <div className='flex items-center gap-5 justify-center mt-7'>
-        {/* <Mic className='rounded-full h-12 w-12 p-3 bg-gray-500 text-white cursor-pointer' /> */}
+      <div className='flex items-center gap-5 justify-center mt-7 flex-wrap'>
         <AlerrtConfirmation onStopInterview={() => {
           const vapi = vapiRef.current;
           if (!vapi) return;
@@ -155,11 +146,11 @@ function StartInterview() {
           else toast("Conversation not captured yet");
 
         }}>
-          {!loading?<Phone className='rounded-full h-12 w-12 bg-red-600 text-white p-3 cursor-pointer' />:<Loader2Icon className='animate-spin'/>}
+          {!loading?<Phone className='rounded-full h-12 w-12 bg-red-600 text-white p-3 cursor-pointer' />:<Loader2Icon className='animate-spin h-8 w-8'/>}
         </AlerrtConfirmation>
       </div>
       <div className='flex justify-center items-center mt-4'>
-        <Button onClick={onStartCall}>Start Interview</Button>
+        <Button onClick={onStartCall} className='w-full sm:w-auto justify-center'>Start Interview</Button>
       </div>
     </div>
   )
