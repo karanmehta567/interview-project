@@ -32,7 +32,7 @@ function CreateBoxInterview({onHandleInputChange,GoToNext}) {
     if(interviewType){
         onHandleInputChange('type',interviewType)
     }
-  },[interviewType,onHandleInputChange])
+  },[interviewType])
   const AddInterviewType=(type)=>{
     const data=interviewType.includes(type)
     if(!data){

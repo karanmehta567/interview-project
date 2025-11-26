@@ -15,7 +15,7 @@ return (
     <SidebarHeader className='flex flex-col items-start gap-4 p-4'>
         <Image src={'/job.jpg'} width={200} height={80} alt='logo image' className='w-full max-w-[160px] rounded-md object-cover'/>
         <Link href={'/dashboard/create-interview'} className='w-full'>
-        <Button className='w-full text-sm sm:text-base'><Plus/>Create New Interview</Button>
+        <Button className='w-full text-sm sm:text-base cursor-pointer'><Plus/>Create New Interview</Button>
         </Link>
         </SidebarHeader>
         <SidebarContent className='px-2 pb-4'>
