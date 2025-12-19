@@ -5,6 +5,7 @@ import InterviewCard from '../dashboard/_components/InterviewCard'
 import { Button } from '@/components/ui/button'
 import { Plus, Video } from 'lucide-react'
 import { useUser } from '@/app/Provider'
+import Link from 'next/link'
 
 function page() {
    const [interviewList,setInterviewList]=React.useState([])
@@ -28,7 +29,9 @@ function page() {
             <div className='p-5 flex flex-col gap-3 items-center text-center'>
                 <Video className='h-10 w-10 text-primary'/>
                 <h2>You dont't have any past interviews records!</h2>
-                <Button><Plus/> Create now!</Button>
+                <Link href={'/dashboard/create-interview'}> 
+                    <Button><Plus/> Create now!</Button>
+                </Link>
             </div>   
         }
         {

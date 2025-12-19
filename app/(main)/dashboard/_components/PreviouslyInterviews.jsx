@@ -33,7 +33,7 @@ function PreviouslyInterviews() {
                 <Link href={'/dashboard/create-interview'}>
                     <Button><Plus/> Create now!</Button>
                 </Link>
-             </div>   
+            </div>   
         }
         {
             interviewList&&
