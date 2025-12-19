@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext, useEffect, useRef, useCallback } from 'react'
+import React, { useContext, useEffect, useRef, useCallback, useTransition, useState } from 'react'
 import { InterviewContext } from '@/context/InterviewContext'
 import { Loader2Icon, Phone } from 'lucide-react'
 import Image from 'next/image'
@@ -18,6 +18,7 @@ function StartInterview() {
   const vapiRef = useRef(null)
   const router=useRouter()
   const [loading,setLoading]=React.useState(false)
+  const [StartTransit,SetTransit]=useState(false)
   const [conversation,setConversation]=React.useState()
 
   const GenerateFeedback=async()=>{
@@ -92,31 +93,49 @@ function StartInterview() {
       vapi.off('message', handleMessage)
     }
   }, [handleCallStart, handleCallEnd, handleMessage])
-  const onStartCall = () => {
+  const onStartCall = async () => {
     const vapi = vapiRef.current
     if (!interviewInfo || !vapi) return
 
-    const questionList = interviewInfo?.interviewData?.questionList
+    SetTransit(true) // purely UI state
+
+    const questionList = interviewInfo.interviewData.questionList
       ?.map(q => q.question)
-      ?.join(', ')
+      .join(', ')
 
     const interviewRecruiterPrompt = {
       name: "AI Interview Recruiter",
-      firstMessage: `Hi ${interviewInfo?.username}, how are you? Ready for your interview on ${interviewInfo?.interviewData?.jobPosition}?`,
+      firstMessage: `Hi ${interviewInfo.username}, how are you? 
+          Ready for your interview on ${interviewInfo.interviewData.jobPosition}?`,
       model: {
         provider: "openai",
         model: "gpt-4.1",
         temperature: 0.7,
-        messages: []
+        messages: [
+          {
+            role: "system",
+            content: `Ask the candidate the following questions one by one: ${questionList}`
+          }
+        ]
       },
-      transcriber: { provider: "deepgram", model: "nova-3", language: "en-US" },
-      voice: { provider: "11labs", voiceId: "2BsEFcU7jUhLaUwV4h7l" }
-    }
-
-    try { vapi.start(interviewRecruiterPrompt) } 
-    catch (error) { console.error('Error while starting vapi', error) }
+      transcriber: {
+        provider: "deepgram",
+        model: "nova-3",
+        language: "en-US"
+      },
+      voice: {
+        provider: "11labs",
+        voiceId: "2BsEFcU7jUhLaUwV4h7l"
+      }
   }
 
+  try {
+    await vapi.start(interviewRecruiterPrompt)
+  } catch (error) {
+    console.error("Error while starting Vapi", error)
+    SetTransit(false)
+  }
+}
   return (
     <div className='px-4 py-10 sm:px-8 lg:px-20 bg-gray-100 min-h-screen'>
       <h2 className='font-bold text-xl sm:text-2xl text-center sm:text-left'>
@@ -150,7 +169,7 @@ function StartInterview() {
         </AlerrtConfirmation>
       </div>
       <div className='flex justify-center items-center mt-4'>
-        <Button onClick={onStartCall} className='w-full sm:w-auto justify-center'>Start Interview</Button>
+        <Button onClick={onStartCall} className='w-full sm:w-auto justify-center' disabled={StartTransit}>Start Interview</Button>
       </div>
     </div>
   )
