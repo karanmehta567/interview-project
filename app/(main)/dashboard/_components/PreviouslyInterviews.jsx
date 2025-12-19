@@ -30,7 +30,7 @@ function PreviouslyInterviews() {
             <div className='p-5 flex flex-col gap-3 items-center text-center'>
                 <Video className='h-10 w-10 text-primary'/>
                 <h2>You dont't have any past interviews records!</h2>
-                <Link href={'/create-interview'}>
+                <Link href={'/dashboard/create-interview'}>
                     <Button><Plus/> Create now!</Button>
                 </Link>
              </div>   
