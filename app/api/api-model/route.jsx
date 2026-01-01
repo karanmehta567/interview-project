@@ -11,13 +11,27 @@ export async function POST(req){
             apiKey: process.env.OPENROUTE_API_KEY,
         })
     const completion = await openai.chat.completions.create({
-        model:'openai/gpt-oss-20b:free',
+        model:'mistralai/mistral-7b-instruct',
         messages: [
             { role: "user", content: FINAL_PROMPT }
         ]
     })
-    return NextResponse.json(completion.choices[0].message)
+    const content = completion?.choices?.[0]?.message?.content;
+
+    if (!content) {
+        console.error("Empty AI response:", completion);
+        return NextResponse.json(
+            { error: "AI failed to generate questions" },
+            { status: 500 }
+        );
+    }
+
+    return NextResponse.json({ content });
 } catch(e){
-    return NextResponse.json(e)
-}
+    console.error("API error:", err);
+    return NextResponse.json(
+        { error: "Server error while generating questions" },
+        { status: 500 }
+    );
+  }
 }

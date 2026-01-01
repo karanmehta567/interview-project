@@ -17,21 +17,40 @@ function QuestionsList({formData,onCreateLink}) {
             GenerateQuestionList()
         }
     },[formData])
-    const GenerateQuestionList=async()=>{
+    const GenerateQuestionList = async () => {
         setLoading(true)
-        try{
-            const result=await axios.post('/api/api-model',{
-                ...formData
-            })  
-            const content=result.data.content
-            const final_json=content.replace("```json","").replace("```","")
-            setQuestionList(JSON.parse(final_json)?.InterviewQuestions)
-            setLoading(false)
-        }catch(e){
-            toast('Server error while fetching')
+        try {
+            const result = await axios.post('/api/api-model', { ...formData })
+            if (result.data?.error) {
+                toast(result.data.error)
+                return
+            }
+            const content = result.data?.content
+                if (!content) {
+                    toast("AI returned empty response")
+                    return
+                }
+            const cleaned = content
+            .replace(/```json|```/g, "")
+            .trim()
+
+            let parsed
+                try {
+                    parsed = JSON.parse(cleaned)
+                } 
+                catch (err) {
+                    console.error("Invalid JSON:", cleaned)
+                    toast("Invalid AI response format")
+                    return
+                }
+            setQuestionList(parsed?.InterviewQuestions ?? [])
+        } catch (e) {
+            console.error("Request failed:", e)
+            toast("Server error while fetching")
+        } finally {
             setLoading(false)
         }
-    }
+}
     const onFinish=async()=>{
         setsaveLoading(true)
         const interview_id=uuidv4()
