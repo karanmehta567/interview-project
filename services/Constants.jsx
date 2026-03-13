@@ -60,16 +60,18 @@ Interview Type: {{type}}
 
 Ensure that the questions matches the tone and structure of real life {{type}} interview
 ### Output:
-Format the response in JSON format with array list of questions
-format:InterviewQuestions=[
+Return ONLY valid JSON format with an array of questions. Do not include any text before or after the JSON.
+[
     {
-    question:'',
-    type:'Technical/Behavioural/Problem Solving/Cultural fit '
-},{
-...
-}
+        "question": "question text here",
+        "type": "Technical/Behavioural/Problem Solving/Cultural fit"
+    },
+    {
+        "question": "question text here",
+        "type": "Technical/Behavioural/Problem Solving/Cultural fit"
+    }
 ]
-Create Structured , relevant and time optimized questions within the given duration of the interview
+Create Structured, relevant and time optimized questions within the given duration of the interview
 `
 export const FeedbackForm=`
     {{conversation}}

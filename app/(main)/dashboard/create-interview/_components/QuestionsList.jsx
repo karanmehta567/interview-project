@@ -30,11 +30,13 @@ function QuestionsList({formData,onCreateLink}) {
                     toast("AI returned empty response")
                     return
                 }
-            const cleaned = content
-            .replace(/```json|```/g, "")
-            .trim()
-
+            
             let parsed
+            // Handle both string and already-parsed JSON responses
+            if (typeof content === 'string') {
+                const cleaned = content
+                    .replace(/```json|```/g, "")
+                    .trim()
                 try {
                     parsed = JSON.parse(cleaned)
                 } 
@@ -43,7 +45,14 @@ function QuestionsList({formData,onCreateLink}) {
                     toast("Invalid AI response format")
                     return
                 }
-            setQuestionList(parsed?.InterviewQuestions ?? [])
+            } else {
+                // Content is already parsed (array of questions)
+                parsed = content
+            }
+            
+            // Handle both array format and object with InterviewQuestions property
+            const questions = Array.isArray(parsed) ? parsed : (parsed?.InterviewQuestions ?? [])
+            setQuestionList(questions)
         } catch (e) {
             console.error("Request failed:", e)
             toast("Server error while fetching")

@@ -11,10 +11,10 @@ export async function POST(req){
             apiKey: process.env.OPENROUTE_API_KEY,
         })
     const completion = await openai.chat.completions.create({
-        model:'mistralai/mistral-7b-instruct',
+        model:'nvidia/nemotron-3-super-120b-a12b:free',
         messages: [
             { role: "user", content: FINAL_PROMPT }
-        ]
+        ],
     })
     const content = completion?.choices?.[0]?.message?.content;
 
@@ -26,9 +26,36 @@ export async function POST(req){
         );
     }
 
-    return NextResponse.json({ content });
+    // Parse JSON from the response (handle if model includes extra text)
+    let parsedJSON;
+    try {
+        // First try parsing as-is
+        parsedJSON = JSON.parse(content);
+    } catch (e) {
+        // Try to extract JSON from the content if it has `InterviewQuestions=` prefix
+        const jsonMatch = content.match(/\[[\s\S]*\]/);
+        if (jsonMatch) {
+            try {
+                parsedJSON = JSON.parse(jsonMatch[0]);
+            } catch (parseError) {
+                console.error("Failed to parse extracted JSON:", content);
+                return NextResponse.json(
+                    { error: "Invalid JSON format from AI model", details: content },
+                    { status: 500 }
+                );
+            }
+        } else {
+            console.error("Could not find JSON in response:", content);
+            return NextResponse.json(
+                { error: "No valid JSON found in AI response", details: content },
+                { status: 500 }
+            );
+        }
+    }
+
+    return NextResponse.json({ content: parsedJSON });
 } catch(e){
-    console.error("API error:", err);
+    console.error("API error:", e);
     return NextResponse.json(
         { error: "Server error while generating questions" },
         { status: 500 }
